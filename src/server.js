@@ -18,6 +18,16 @@ polka() // You can also use Express
 		const out = JSON.stringify(discogRes.data);
 		res.end(out);
 	})
+	.get('/api/label/:id', async (req, res) => {
+		const discogRes = await discogs.label(DISCOGS_TOKEN, req.params.id);
+		const out = JSON.stringify(discogRes.data);
+		res.end(out);
+	})
+	.get('/api/artist/:id', async (req, res) => {
+		const discogRes = await discogs.artist(DISCOGS_TOKEN, req.params.id);
+		const out = JSON.stringify(discogRes.data);
+		res.end(out);
+	})
 	.use(
 		compression({ threshold: 0 }),
 		sirv('static', { dev }),
