@@ -27,6 +27,14 @@ module.exports = {
 							hotReload: false // pending https://github.com/sveltejs/svelte/issues/2377
 						}
 					}
+				},
+				{
+					test: /\.css$/i,
+					use: ['style-loader', 'css-loader'],
+				},
+				{
+					test: /\.svg$/,
+					loader: 'svg-inline-loader'
 				}
 			]
 		},
@@ -60,6 +68,14 @@ module.exports = {
 							dev
 						}
 					}
+				},
+				{
+					test: /\.css$/i,
+					use: ['style-loader', 'css-loader'],
+				},
+				{
+					test: /\.svg$/,
+					loader: 'svg-inline-loader'
 				}
 			]
 		},
@@ -69,9 +85,9 @@ module.exports = {
 		}
 	},
 
-	serviceworker: {
-		entry: config.serviceworker.entry(),
-		output: config.serviceworker.output(),
-		mode: process.env.NODE_ENV
-	}
+	// serviceworker: {
+	// 	entry: config.serviceworker.entry(),
+	// 	output: config.serviceworker.output(),
+	// 	mode: process.env.NODE_ENV
+	// }
 };
