@@ -3,6 +3,23 @@ import { onMount } from 'svelte';
 
 export let src;
 
+const id = `player-${Math.random()}`;
+
+onMount(async () => {
+  if (window.YT == undefined || window.YT.Player == undefined) { 
+    window.onYouTubeIframeAPIReady = () => {
+      init();
+    };
+
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+  init();
+});
+
 const getYouTubeIdFromParam = (url) => {
   if (url === undefined || url === null || !url.trim().length) {
     return null;
@@ -26,13 +43,27 @@ const getYouTubeIdFromParam = (url) => {
   return youTubeId;
 };
 
-const id = getYouTubeIdFromParam(src);
+function init() {
+  if (global.YT && global.YT.Player) {
+    _init();
+  }
+}
 
-onMount(async () => {
-  const module = await import('../mediaplayer');
-});
+function _init() {
+  console.log(src, getYouTubeIdFromParam(src));
+
+  const player = new YT.Player(id, {
+    height: '390',
+    width: '640',
+    videoId: getYouTubeIdFromParam(src),
+    events: {
+      // 'onReady': onPlayerReady,
+      // 'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+$: init();
 </script>
 
-{#if id !== null}
-<lite-youtube videoid={id}></lite-youtube>
-{/if}
+<div id={id}></div>
